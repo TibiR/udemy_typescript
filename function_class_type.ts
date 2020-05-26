@@ -13,16 +13,18 @@ console.log(sum(1, 2));
 // class type
 
 class Test {
-    constructor(public num1?: number, public num2?: number) {
+    constructor(public num1?: number | undefined, public num2?: number | undefined) {
     }
 
     show() {
-        console.log(this.num1 + this.num2);
+        if (this.num1 && this.num2) {
+            console.log(this.num1 + this.num2);
+        }
     }
 }
 
 let classVariable: new (num1: number, num2: number) => Test = Test
 
-const test = new classVariable(1,2);
+const test = new classVariable(1, 2);
 
 test.show();
