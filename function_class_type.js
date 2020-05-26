@@ -16,6 +16,6 @@ var Test = /** @class */ (function () {
     };
     return Test;
 }());
-var classVariable;
+var classVariable = Test;
 var test = new classVariable(1, 2);
 test.show();

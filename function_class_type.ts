@@ -13,7 +13,7 @@ console.log(sum(1, 2));
 // class type
 
 class Test {
-    constructor(public num1: number, public num2: number) {
+    constructor(public num1?: number, public num2?: number) {
     }
 
     show() {
@@ -21,8 +21,8 @@ class Test {
     }
 }
 
-let classVariable: new (num1: number, num2: number) =>  Test
+let classVariable: new (num1: number, num2: number) => Test = Test
 
-const test = new classVariable(1, 2);
+const test = new classVariable(1,2);
 
 test.show();
