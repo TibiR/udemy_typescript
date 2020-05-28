@@ -32,6 +32,7 @@ class ITDepartament extends Department<string> {
 
 const itDep = new ITDepartament(true, 'iT', 'IT Departament');
 itDep.add('Tibi');
+itDep.add('Tibi2');
 itDep.show();
 itDep.searchEmployee('Tibi');
 itDep.describe();
