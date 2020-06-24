@@ -1,4 +1,19 @@
 "use strict";
+// Project Type
+var Status;
+(function (Status) {
+    Status[Status["Active"] = 0] = "Active";
+    Status[Status["Finished"] = 1] = "Finished";
+})(Status || (Status = {}));
+class Project {
+    constructor(id, title, description, people, status) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.people = people;
+        this.status = status;
+    }
+}
 // PROJECT STATE MANAGEMENT
 class ProjectState {
     constructor() {
@@ -16,12 +31,7 @@ class ProjectState {
         this.listeners.push(listenerFN);
     }
     addProject(title, description, people) {
-        const newProject = {
-            id: Math.random().toString(),
-            title,
-            description,
-            people
-        };
+        const newProject = new Project(Math.random().toString(), title, description, people, Status.Active);
         this.projects.push(newProject);
         for (const listenerFn of this.listeners) {
             listenerFn(this.projects.slice());
@@ -60,8 +70,13 @@ class ProjectList {
         this.element = importedNode.firstElementChild;
         this.element.id = `${this.type}-projects`;
         projectState.addListener((projects) => {
-            console.log(projects);
-            this.assignedProjects = projects;
+            const relevantProject = projects.filter(prj => {
+                if (this.type === 'active') {
+                    return prj.status === Status.Active;
+                }
+                return prj.status === Status.Finished;
+            });
+            this.assignedProjects = relevantProject;
             this.renderProjects();
         });
         this.attach();
@@ -69,6 +84,7 @@ class ProjectList {
     }
     renderProjects() {
         const listEl = document.getElementById(`${this.type}-project-list`);
+        listEl.innerHTML = '';
         for (const item of this.assignedProjects) {
             const listItem = document.createElement('li');
             listItem.textContent = item.title;
